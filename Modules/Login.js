@@ -1,39 +1,16 @@
 import axios from 'axios';
-import { useState } from 'react';
+import React, { useState, useContext } from "react";
+import { Context } from "./context/authContext";
 import { View, Image } from 'react-native';
 import { Text, TextInput, Button } from 'react-native-paper';
 import { styles, themeWhite } from '../styles';
-import { Alert } from '../Modules/Alert'
-
 const Login = ({ navigation }) => {
 
+    const { loginUser } = useContext(Context)
     const [email, setEmail] = useState('hallison.brancalhao@crefaz.com.br');
     const [password, setPassword] = useState('123456');
+
     const [errorMessage, setErrorMessage] = useState(''); 
-
-    const showAlert = (erro) => {
-        console.log(erro)
-      }
-
-    const logar = async () => {
-
-        const json = JSON.stringify({ "email": email, "password": password });
-
-        try {
-            const res = await axios.post('http://localhost/api/login/auth', json, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            navigation.navigate('Posts');
-        } catch (error) {
-            if (typeof error.response.data.message !== 'undefined') {
-                setErrorMessage(error.response.data.message)
-            } else {
-                setErrorMessage('Erro no sistema, tente novamente mais tarde')
-            }
-        }
-    }
 
     const goToForgotPassword = () => {
         navigation.navigate('RecuperarSenha')
@@ -76,7 +53,7 @@ const Login = ({ navigation }) => {
                 theme={themeWhite}
                 color='white'
                 icon="account"
-                onPress={logar}
+                onPress={() => loginUser(email, password)}
             >
                 Entrar
             </Button>
