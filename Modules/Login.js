@@ -1,16 +1,46 @@
-import axios from 'axios';
 import React, { useState, useContext } from "react";
-import { Context } from "./context/authContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Image } from 'react-native';
 import { Text, TextInput, Button } from 'react-native-paper';
 import { styles, themeWhite } from '../styles';
+import api from "./api";
+
+
 const Login = ({ navigation }) => {
 
-    const { loginUser } = useContext(Context)
+    const loginUser = (email, password) => {
+
+        const json = JSON.stringify({ "email": email, "password": password });
+        return async () => {
+
+            try {
+
+                const data = await api.post("/login/auth", json, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                await AsyncStorage.setItem("id", data.data.token);
+
+                const id = await AsyncStorage.getItem("id");
+                console.log(id);
+
+            } catch (e) {
+                if(e.errorMessage !== 'undefined'){
+                    setErrorMessage("Erro ao realizar login.")
+                } else{
+                    console.log(e);
+                }
+                
+            }
+        };
+    }
+
     const [email, setEmail] = useState('hallison.brancalhao@crefaz.com.br');
     const [password, setPassword] = useState('123456');
 
-    const [errorMessage, setErrorMessage] = useState(''); 
+    const [errorMessage, setErrorMessage] = useState('');
 
     const goToForgotPassword = () => {
         navigation.navigate('RecuperarSenha')
@@ -53,15 +83,15 @@ const Login = ({ navigation }) => {
                 theme={themeWhite}
                 color='white'
                 icon="account"
-                onPress={() => loginUser(email, password)}
+                onPress={loginUser(email, password)}
             >
                 Entrar
             </Button>
 
             <Text style={styles.error}>
-                { errorMessage }
+                {errorMessage}
             </Text>
-            
+
             <Text style={styles.link} onPress={goToForgotPassword}>
                 Esqueci minha senha
             </Text>
