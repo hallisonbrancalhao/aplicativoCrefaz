@@ -5,7 +5,6 @@ import { Text, TextInput, Button } from 'react-native-paper';
 import { styles, themeWhite } from '../styles';
 import api from "./api";
 
-
 const Login = ({ navigation }) => {
 
     const loginUser = (email, password) => {
@@ -15,24 +14,24 @@ const Login = ({ navigation }) => {
 
             try {
 
-                const data = await api.post("/login/auth", json, {
+                const result = await api.post("/login/auth", json, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-
-                await AsyncStorage.setItem("id", data.data.token);
+                await AsyncStorage.setItem("id", result.data.data.token);
 
                 const id = await AsyncStorage.getItem("id");
-                console.log(id);
+
+                goToPosts();
 
             } catch (e) {
+
                 if(e.errorMessage !== 'undefined'){
                     setErrorMessage("Erro ao realizar login.")
                 } else{
                     console.log(e);
                 }
-                
             }
         };
     }
@@ -44,6 +43,10 @@ const Login = ({ navigation }) => {
 
     const goToForgotPassword = () => {
         navigation.navigate('RecuperarSenha')
+    }
+    
+    const goToPosts = () => {
+        navigation.navigate('Posts')
     }
 
     return (

@@ -11,11 +11,13 @@ export const themeWhite = {
 };
 
 export const styles = StyleSheet.create({
-   main: {
-    backgroundColor: '#222222',
-    height: '100%',
-    alignItems: 'center',
-    paddingTop: 50,
+   card: {
+    backgroundColor: '#111111',
+    width: 300,
+    borderRadius: 5,
+    marginBottom: 20,
+    alignItems: 'left',
+    padding: 20,
   },
   title: {
     color: 'white',
@@ -31,21 +33,17 @@ export const styles = StyleSheet.create({
     marginTop: 25,
     color: '#fff' ,
     backgroundColor: '#222222',
-    width: 300
+    width: '80%'
   },
   button: {
-    marginBottom: 25,
-    backgroundColor: '#041014',
+    backgroundColor: 'rgb(32, 140, 15)',
     marginTop: 25,
-    width: 300,
+    width: 150,
     borderRadius: 25,
   },
   link: {
     color: 'white',
     marginTop: 10,
-  },
-  radios: {
-    display: 'inline',
   },
   error: {
     color: 'rgb(243, 65, 65)',
@@ -54,8 +52,11 @@ export const styles = StyleSheet.create({
     
   },
   errorView: {
-    
     marginVertical: 25,
     backgroundColor: '#0c0c0c' ,
+  },
+  text: {
+    fontSize: 12,
+    color: 'white',
   }
 })
